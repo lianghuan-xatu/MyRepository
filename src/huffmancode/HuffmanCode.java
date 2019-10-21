@@ -1,5 +1,6 @@
 package huffmancode;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class HuffmanCode {
@@ -7,7 +8,7 @@ public class HuffmanCode {
             String content="i like like like java do you like a java";
             byte[] contentBytes=content.getBytes();
             System.out.println(contentBytes.length);
-            List<Node> nodes=getNodes(contentBytes);
+          /*  List<Node> nodes=getNodes(contentBytes);
             System.out.println(nodes);
             //测试
         //创建Huffman树
@@ -19,12 +20,25 @@ public class HuffmanCode {
 //用huffTab来接收getCodes方法创建的huffman code table
                  Map<Byte,String> huffTab=getCodes(huffmanNode);
              System.out.println(huffTab);
-             byte[] context=content.getBytes();
+             byte[] context=content.getBytes();  //40
              //用于接收数据的byte[]数组
         byte[] data=zip(context,huffTab);
         for(byte b1:data)
-        System.out.println("压缩数据"+b1);
+        System.out.println("压缩数据中..."+b1);//17
+        //压缩完成  压缩率是40-17/40
+*/
+       byte[] b= huffmanZip(contentBytes);
+        System.out.println(Arrays.toString(b));
 
+
+    }
+
+    private  static byte[] huffmanZip(byte[] bytes){
+    List<Node> nodes=getNodes(bytes);
+    Node huffmanTreeRoot=createHuffman(nodes);
+    Map<Byte,String> huffmanCodes=getCodes(huffmanTreeRoot);
+    byte[] huffmanCodeBytes=zip(bytes,huffmanCodes);
+    return huffmanCodeBytes;
 
     }
     //编写一个方法将字符串对应的byte数组，通过Huffman编码表压缩之后的byte数组
@@ -119,11 +133,11 @@ public class HuffmanCode {
         }
     }
     private static List<Node> getNodes(byte[] bytes){
-        ArrayList<Node>  nodes=new ArrayList<>();
-        //遍历字节数组   得到每个字符出现的次数   map
-        HashMap<Byte,Integer> counts=new HashMap<>();
-        for(byte b:bytes){
-            Integer count=counts.get(b);
+                ArrayList<Node>  nodes=new ArrayList<>();
+                //遍历字节数组   得到每个字符出现的次数   map
+                HashMap<Byte,Integer> counts=new HashMap<>();
+                for(byte b:bytes){
+                    Integer count=counts.get(b);
             if(count==null){
                 //map还没有这个数据
                 counts.put(b,1);

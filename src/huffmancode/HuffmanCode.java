@@ -2,9 +2,7 @@ package huffmancode;
 
 
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.*;
 import java.util.*;
 public class HuffmanCode {
     public static void main(String[] args){
@@ -43,6 +41,7 @@ public class HuffmanCode {
     private  static void zipFile(String srcFile,String dstFile)  {
         FileInputStream fis=null;
         FileOutputStream fos=null;
+        ObjectOutputStream fos2 = null;
       try {
           fis = new FileInputStream(srcFile);
           byte[] bytes=new byte[fis.available()];
@@ -50,16 +49,55 @@ public class HuffmanCode {
           byte[] huffmanBytes=huffmanZip(bytes);
           fos=new FileOutputStream(dstFile);
           //创建一个和文件输出流关联的ObjectOutputStream
+          //然后直接以对象流方式写入huffman编码 为了方便我们恢复时使用
+        fos2 = new ObjectOutputStream(fos);
+        fos2.writeObject(huffmanBytes);
+        //
+          fos2.writeObject(huffmancodes);
 
       }catch(Exception e){
           System.out.println(e.getMessage());
       }finally {
           try{  fis.close();
+              fos.close();
+              fos2.close();
       }catch (Exception e1){
           System.out.println(e1.getMessage());
           }
       }
 
+
+    }
+    private static void unzipFile(String zipFile,String desFile){
+        InputStream in=null;
+        ObjectInputStream oin=null;
+        OutputStream out=null;
+        try{
+            in=new FileInputStream(zipFile);
+            oin=new ObjectInputStream(in);
+            //读取byte数组（huffman字节数组）
+            byte[] huffmanBytes=(byte[])oin.readObject();
+            Map<Byte,String> huffmanCodes=(Map<Byte, String>)oin.readObject();
+            //解码
+            byte[] bytes=decode(huffmanCodes,huffmanBytes);
+        out=new FileOutputStream(desFile);
+        out.write(bytes);
+
+        }catch (Exception e){
+           System.out.println(e.getMessage());
+
+        }finally {
+            try{
+                out.close();
+                oin.close();
+                in.close();
+                
+                
+            }catch (Exception e1){
+                System.out.println(e1.getMessage());
+            }
+        
+        }
 
     }
 

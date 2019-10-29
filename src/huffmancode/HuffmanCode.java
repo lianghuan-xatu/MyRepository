@@ -91,7 +91,7 @@ public class HuffmanCode {
                 out.close();
                 oin.close();
                 in.close();
-                
+
                 
             }catch (Exception e1){
                 System.out.println(e1.getMessage());

@@ -2,6 +2,9 @@
   <dictionary name="zachary">
     <words>
       <w>huffmancodes</w>
+      <w>kruskal</w>
+      <w>prefixtable</w>
+      <w>vertaxs</w>
     </words>
   </dictionary>
 </component>

@@ -24,7 +24,7 @@ public class KMP {
             else {
                 j=prefix[j];
                 if(j==-1) {
-                    i++;
+                    i++;//说明第一位都没有匹配上  i,j后移
                     j++;
                 }
             }
